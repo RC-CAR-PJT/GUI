@@ -10,6 +10,7 @@ class MjpegStreamReader(QThread):
         self.running = True
 
     def run(self):
+        print("[MJPEG] Thread started, requesting stream:", self.url)
         try:
             stream = requests.get(self.url, stream=True)
             buffer = b""
@@ -22,6 +23,7 @@ class MjpegStreamReader(QThread):
                 if start != -1 and end != -1 and end > start:
                     jpg = buffer[start:end+2]
                     buffer = buffer[end+2:]
+                    print(f"[MJPEG] Frame received: {len(jpg)} bytes")
                     self.frame_received.emit(jpg)
         except Exception as e:
             print("Stream error:", e)
@@ -30,3 +32,4 @@ class MjpegStreamReader(QThread):
         self.running = False
         self.quit()
         self.wait()
+

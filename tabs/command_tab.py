@@ -24,7 +24,9 @@ class CommandTab(QWidget):
         # MJPEG 스트림 레이블
         self.mjpeg_label = QLabel("MJPEG 스트림 준비중...")
         self.mjpeg_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
+        
+        # 디버깅용 로그
+        print("[GUI] MJPEG_STREAM_URL:", MJPEG_STREAM_URL)
         self.reader = MjpegStreamReader(MJPEG_STREAM_URL)
         self.reader.frame_received.connect(self.update_image)
         self.reader.start()
@@ -85,6 +87,8 @@ class CommandTab(QWidget):
         main_layout.addLayout(speed_layout)
 
     def update_image(self, jpg_bytes):
+        print("[GUI] update_image() called")
+        print("[DEBUG] QLabel size:", self.mjpeg_label.size())  # ← 여기에 추가
         pixmap = QPixmap()
         pixmap.loadFromData(jpg_bytes, "JPEG")
         self.mjpeg_label.setPixmap(pixmap.scaled(
@@ -115,3 +119,4 @@ class CommandTab(QWidget):
         if self.reader and self.reader.isRunning():
             self.reader.stop()
         event.accept()
+
