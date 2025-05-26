@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QWidget, QTextEdit, QPushButton, QVBoxLayout
-from PySide6.QtCore import QDateTime
+from PyQt6.QtWidgets import QWidget, QTextEdit, QPushButton, QVBoxLayout
+from PyQt6.QtCore import QDateTime
 
 
 class SensingTab(QWidget):

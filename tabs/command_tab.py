@@ -1,14 +1,14 @@
-from PySide6.QtWidgets import (
+from PyQt6.QtWidgets import (
     QWidget, QTextEdit, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QSlider, QSizePolicy
 )
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QIntValidator, QPixmap
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIntValidator, QPixmap
 import os
 from dotenv import load_dotenv
 from mjpeg_stream import MjpegStreamReader
 
-load_dotenv()
+load_dotenv(override=True)
 MJPEG_STREAM_URL = os.getenv("MJPEG_STREAM_URL")
 
 class CommandTab(QWidget):
@@ -43,7 +43,7 @@ class CommandTab(QWidget):
 
         self.speed_edit = QLineEdit("255")
         self.speed_edit.setValidator(QIntValidator(0, 255, self))
-        self.speed_edit.setMaximumWidth(50)   # 여기서 크기 고정 (너비 50px)
+        self.speed_edit.setMaximumWidth(50)
         self.speed_label = QLabel("속도: 255")
 
         # 버튼 연결
@@ -64,13 +64,11 @@ class CommandTab(QWidget):
         top_layout.addWidget(self.editor)
         top_layout.addWidget(self.mjpeg_label)
 
-        # 반반 크기 할당
-        top_layout.setStretch(0, 1)  # editor 1
-        top_layout.setStretch(1, 1)  # mjpeg_label 1
+        top_layout.setStretch(0, 1)
+        top_layout.setStretch(1, 1)
 
         main_layout.addLayout(top_layout)
 
-        # 이동 버튼 레이아웃
         move_layout = QHBoxLayout()
         move_layout.addWidget(self.btn_forward)
         move_layout.addWidget(self.btn_backward)
@@ -79,7 +77,6 @@ class CommandTab(QWidget):
         move_layout.addWidget(self.btn_stop)
         main_layout.addLayout(move_layout)
 
-        # 속도 조절 레이아웃
         speed_layout = QHBoxLayout()
         speed_layout.addWidget(QLabel("속도 설정:"))
         speed_layout.addWidget(self.speed_slider)
@@ -91,7 +88,7 @@ class CommandTab(QWidget):
         pixmap = QPixmap()
         pixmap.loadFromData(jpg_bytes, "JPEG")
         self.mjpeg_label.setPixmap(pixmap.scaled(
-            self.mjpeg_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.mjpeg_label.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
 
     def send_command(self, cmd):
         self.editor.append(f"Command sent: {cmd}")

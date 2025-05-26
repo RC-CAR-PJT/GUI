@@ -2,15 +2,16 @@ import json
 import os
 from dotenv import load_dotenv
 import paho.mqtt.client as mqtt
-from PySide6.QtCore import QTimer
 
-load_dotenv()
+load_dotenv(override=True)
 
-MQTT_HOST = os.getenv("MQTT_BROKER_IP", "localhost")  # 기본값 localhost
+MQTT_HOST = os.getenv("MQTT_BROKER_IP", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
+
 
 class MQTTHandler:
     def __init__(self):
+        print(f"Connecting to MQTT broker at {MQTT_HOST}:{MQTT_PORT}")
         # Command client
         self.command_client = mqtt.Client(client_id="cmd", protocol=mqtt.MQTTv5)
         self.command_client.on_connect = self.on_connect
@@ -34,17 +35,16 @@ class MQTTHandler:
         else:
             print("MQTT not connected")
 
-    # Command client 콜백
+    # Command client callbacks
     def on_connect(self, client, userdata, flags, rc, properties=None):
         print(f"[Command Client] Connected to MQTT with result code {rc}")
 
     def on_disconnect(self, client, userdata, rc, properties=None):
         print(f"[MQTT] Disconnected from MQTT with result code {rc}")
 
-    # Sensing client 콜백
+    # Sensing client callbacks
     def on_sense_connect(self, client, userdata, flags, rc, properties=None):
         print(f"[Sensing Client] Connected with result code {rc}")
-        # 구독할 토픽 설정
         client.subscribe("rc_car/sensing")
 
     def on_message_received(self, client, userdata, msg):

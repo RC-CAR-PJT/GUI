@@ -1,5 +1,4 @@
-from PySide6.QtWidgets import QWidget, QTextEdit, QVBoxLayout
-
+from PyQt6.QtWidgets import QWidget, QTextEdit, QVBoxLayout
 
 class AIPromptTab(QWidget):
     def __init__(self):

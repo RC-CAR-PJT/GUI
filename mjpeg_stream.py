@@ -1,8 +1,8 @@
-from PySide6.QtCore import QThread, Signal
+from PyQt6.QtCore import QThread, pyqtSignal
 import requests
 
 class MjpegStreamReader(QThread):
-    frame_received = Signal(bytes)
+    frame_received = pyqtSignal(bytes)
 
     def __init__(self, url):
         super().__init__()

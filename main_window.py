@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QTabWidget
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QTabWidget
 from tabs.command_tab import CommandTab
 from tabs.sensing_tab import SensingTab
 from tabs.ai_prompt_tab import AIPromptTab
