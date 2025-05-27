@@ -18,7 +18,7 @@ class MainWidget(QMainWindow):
         self.tab_widget = QTabWidget()
         self.command_tab = CommandTab(self.mqtt_handler)
         self.sensing_tab = SensingTab(self.mqtt_handler)
-        self.ai_prompt_tab = AIPromptTab()
+        self.ai_prompt_tab = AIPromptTab(self.mqtt_handler)
 
         self.tab_widget.addTab(self.command_tab, "Command")
         self.tab_widget.addTab(self.sensing_tab, "Sensing")
