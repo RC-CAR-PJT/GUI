@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIntValidator, QPixmap
+from PyQt6.QtGui import QTransform
 import os
 from dotenv import load_dotenv
 from mjpeg_stream import MjpegStreamReader
@@ -88,11 +89,16 @@ class CommandTab(QWidget):
 
     def update_image(self, jpg_bytes):
         print("[GUI] update_image() called")
-        print("[DEBUG] QLabel size:", self.mjpeg_label.size())  # ← 여기에 추가
         pixmap = QPixmap()
         pixmap.loadFromData(jpg_bytes, "JPEG")
-        self.mjpeg_label.setPixmap(pixmap.scaled(
-            self.mjpeg_label.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+
+        # 180도 회전
+        transform = QTransform().rotate(180)
+        rotated_pixmap = pixmap.transformed(transform, Qt.TransformationMode.SmoothTransformation)
+
+        self.mjpeg_label.setPixmap(rotated_pixmap.scaled(
+            self.mjpeg_label.size(), Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation))
 
     def send_command(self, cmd):
         self.editor.append(f"Command sent: {cmd}")
